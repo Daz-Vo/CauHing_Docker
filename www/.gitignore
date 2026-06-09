@@ -1,0 +1,7 @@
+# Bỏ qua tất cả mọi thứ trong www
+*
+
+# Giữ lại (Không bỏ qua) những file này:
+!.gitignore
+!info.php
+!test_db.php
