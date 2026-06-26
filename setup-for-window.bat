@@ -18,12 +18,14 @@ set /p install_mysql="1. Cài đặt MySQL? (Y/N, mặc định Y): "
 set /p install_mssql="2. Cài đặt SQL Server (MSSQL)? (Y/N, mặc định Y): "
 set /p install_postgres="3. Cài đặt PostgreSQL? (Y/N, mặc định Y): "
 set /p install_mongo="4. Cài đặt MongoDB? (Y/N, mặc định Y): "
+set /p install_redis="5. Cài đặt Redis? (Y/N, mặc định Y): "
 
 rem Thiết lập giá trị mặc định nếu nhấn Enter (Không nhập gì)
 if "%install_mysql%"=="" set install_mysql=Y
 if "%install_mssql%"=="" set install_mssql=Y
 if "%install_postgres%"=="" set install_postgres=Y
 if "%install_mongo%"=="" set install_mongo=Y
+if "%install_redis%"=="" set install_redis=Y
 
 rem 2.5 Hỏi mật khẩu dùng chung cho Admin tối cao (Bắt buộc nhập)
 echo.
@@ -59,13 +61,14 @@ if %errorlevel% neq 0 (
 )
 
 rem 5. Xây dựng danh sách dịch vụ cần khởi chạy
-set SERVICES=web-app
+set SERVICES=web-app adminer
 
 rem Kiểm tra nếu KHÔNG PHẢI là N hoặc n thì mới cài (Chấp nhận Y, y hoặc Enter)
 if /i "%install_mysql%" neq "N" set SERVICES=%SERVICES% mysql
 if /i "%install_mssql%" neq "N" set SERVICES=%SERVICES% sqlserver_db
 if /i "%install_postgres%" neq "N" set SERVICES=%SERVICES% postgres
 if /i "%install_mongo%" neq "N" set SERVICES=%SERVICES% mongodb
+if /i "%install_redis%" neq "N" set SERVICES=%SERVICES% redis
 
 echo.
 echo [3/4] Đang khởi chạy các dịch vụ đã chọn (%SERVICES%)...

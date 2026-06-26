@@ -19,10 +19,11 @@ fi
 
 # 2. Hỏi người dùng chọn CSDL
 echo -e "${YELLOW}Chọn các cơ sở dữ liệu bạn muốn cài đặt/kích hoạt:${NC}"
-read -p "1. Cài đặt MySQL? (Y/n, mặc định Y): " install_mysql
-read -p "2. Cài đặt SQL Server (MSSQL)? (Y/n, mặc định Y): " install_mssql
-read -p "3. Cài đặt PostgreSQL? (Y/n, mặc định Y): " install_postgres
-read -p "4. Cài đặt MongoDB? (Y/n, mặc định Y): " install_mongo
+read -p "1. Cài đặt MySQL? (Y/N, mặc định Y): " install_mysql
+read -p "2. Cài đặt SQL Server (MSSQL)? (Y/N, mặc định Y): " install_mssql
+read -p "3. Cài đặt PostgreSQL? (Y/N, mặc định Y): " install_postgres
+read -p "4. Cài đặt MongoDB? (Y/N, mặc định Y): " install_mongo
+read -p "5. Cài đặt Redis? (Y/N, mặc định Y): " install_redis
 
 # 2.5 Hỏi mật khẩu dùng chung cho Admin tối cao (Bắt buộc nhập)
 echo ""
@@ -59,7 +60,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # 5. Xây dựng danh sách dịch vụ cần khởi chạy
-SERVICES="web-app"
+SERVICES="web-app adminer"
 
 # Logic: Nếu câu trả lời KHÔNG PHẢI là N hoặc n thì tiến hành kích hoạt dịch vụ
 if [[ ! "$install_mysql" =~ ^[Nn]$ ]]; then
@@ -74,13 +75,20 @@ fi
 if [[ ! "$install_mongo" =~ ^[Nn]$ ]]; then
     SERVICES="$SERVICES mongodb"
 fi
+if [[ ! "$install_redis" =~ ^[Nn]$ ]]; then
+    SERVICES="$SERVICES redis"
+fi
 
 # 6. Khởi chạy các dịch vụ đã chọn
 echo -e "${YELLOW}[3/4] Đang khởi chạy các dịch vụ đã chọn ($SERVICES)...${NC}"
 docker compose up -d $SERVICES
 
-# 7. Kiểm tra trạng thái cuối cùng
-echo -e "${YELLOW}[4/4] Kiểm tra trạng thái các dịch vụ...${NC}"
+# 7. Cấp quyền cho thư mục www để PHP có thể ghi file
+echo -e "${YELLOW}[4/5] Đang cấp quyền cho thư mục ./www...${NC}"
+chmod -R 777 ./www
+
+# 8. Kiểm tra trạng thái cuối cùng
+echo -e "${YELLOW}[5/5] Kiểm tra trạng thái các dịch vụ...${NC}"
 echo ""
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 

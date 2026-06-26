@@ -123,9 +123,18 @@ Sử dụng **Hostname** là tên của Service được định nghĩa trong fi
 | **SQL Server** | `sqlserver_db` | 1433 | `sa` | *Mật khẩu bạn đã nhập* |
 | **MongoDB** | `mongodb` | 27017 | `root` | *Mật khẩu bạn đã nhập* |
 
-### B. Kết nối Quản lý từ máy thật (Sử dụng DBeaver & MongoDB Compass)
+### B. Quản trị Database trực tiếp trên Web bằng Adminer (Khuyên dùng)
 
-Để quản trị cơ sở dữ liệu trực quan từ môi trường máy thật của bạn:
+Công cụ Adminer siêu nhẹ đã được tích hợp sẵn giúp bạn quản lý các SQL Database (MySQL, PostgreSQL, MS SQL) mà không cần cài phần mềm thứ 3.
+* **Truy cập:** Mở trình duyệt và vào `http://localhost:8080`.
+* **Cách đăng nhập:**
+  * **System (Hệ quản trị):** Chọn loại DB bạn muốn (ví dụ: MySQL).
+  * **Server (Máy chủ):** Gõ tên service tương ứng trong Docker (VD: `mysql`, `postgres`, hoặc `sqlserver_db`). **TUYỆT ĐỐI KHÔNG dùng `localhost`**.
+  * **Username & Password:** Nhập tài khoản và mật khẩu như bảng ở mục A (Mật khẩu chính là mật khẩu dùng chung bạn đã tạo lúc Setup).
+
+### C. Quản lý bằng phần mềm trên máy thật (DBeaver & MongoDB Compass)
+
+Để quản trị cơ sở dữ liệu trực quan từ môi trường máy thật bằng phần mềm cài đặt ngoài:
 
 **1. Quản lý SQL (MySQL, PostgreSQL, SQL Server) bằng DBeaver CE:**
 
@@ -145,7 +154,13 @@ mongodb://root:MatKhauCuaBan@localhost:27017/
 
 ```
 
+**3. Quản lý Cache bằng RedisInsight:**
 
+* **Phần mềm khuyên dùng:** "RedisInsight" hoặc Another Redis Desktop Manager.
+* **Cách kết nối:**
+  * **Host:** `localhost` hoặc `127.0.0.1`
+  * **Port:** `6379`
+  * **Mật khẩu:** Bỏ trống (Mặc định không yêu cầu).
 
 ---
 
@@ -154,5 +169,6 @@ mongodb://root:MatKhauCuaBan@localhost:27017/
 * **Trình quản lý tệp dự án:** `http://localhost/` (Liệt kê tất cả thư mục/mã nguồn nằm trong folder `www`).
 * **Kiểm tra thông tin PHP:** `http://localhost/info.php`.
 * **Kiểm tra kết nối DB:** `http://localhost/test_db.php`.
+* **Quản trị Database trực quan (Adminer):** `http://localhost:8080` (Hỗ trợ MySQL, PostgreSQL, SQL Server).
 
 ---
