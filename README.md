@@ -117,13 +117,13 @@ docker compose stop
 
 Từng CSDL sử dụng biến mật khẩu độc lập trong file `.env` (mặc định ban đầu sẽ lấy theo mật khẩu bạn nhập lúc setup):
 
-| Dịch vụ | Hostname (Nội bộ Docker) | Hostname (Máy thật) | Port | Tài khoản (Username) | Biến mật khẩu trong `.env` |
-| --- | --- | --- | --- | --- | --- |
-| **MySQL** | `mysql` | `localhost` | 3306 | `root` | `MYSQL_ROOT_PASSWORD` |
-| **PostgreSQL** | `postgres` | `localhost` | 5432 | `postgres` | `POSTGRES_PASSWORD` |
-| **SQL Server** | `sqlserver_db` | `localhost` | 1433 | `sa` | `MSSQL_SA_PASSWORD` |
-| **MongoDB** | `mongodb` | `localhost` | 27017 | `root` | `MONGO_INITDB_ROOT_PASSWORD` |
-| **Redis** | `redis` | `localhost` | 6379 | *(Không yêu cầu)* | *(Không mật khẩu)* |
+| Dịch vụ | Host nội bộ Docker | Host máy thật | Port | Database (CSDL mặc định) | Tài khoản | Biến mật khẩu trong `.env` | Ghi chú kết nối |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **MySQL** | `mysql` | `localhost` | 3306 | **Để trống** *(hoặc `mysql`)* | `root` | `MYSQL_ROOT_PASSWORD` | Không bắt buộc điền ô Database, kết nối xong sẽ thấy toàn bộ DB. |
+| **PostgreSQL** | `postgres` | `localhost` | 5432 | `postgres` | `postgres` | `POSTGRES_PASSWORD` | **Bắt buộc** điền tên database ban đầu để xác thực kết nối. |
+| **SQL Server** | `sqlserver_db` | `localhost` | 1433 | `master` *(hoặc để trống)* | `sa` | `MSSQL_SA_PASSWORD` | Thẻ **Driver properties** cần bật `trustServerCertificate = true`. |
+| **MongoDB** | `mongodb` | `localhost` | 27017 | `admin` *(hoặc để trống)* | `root` | `MONGO_INITDB_ROOT_PASSWORD` | Chuỗi: `mongodb://root:<Password>@localhost:27017/admin?authSource=admin` |
+| **Redis** | `redis` | `localhost` | 6379 | `0` *(DB index mặc định)* | *(trống)* | *(không mật khẩu)* | Redis chia DB theo số từ 0 - 15. |
 
 ### Quản trị Database trực tiếp trên Web bằng Adminer
 * **Truy cập:** `http://localhost:8080`
@@ -131,13 +131,9 @@ Từng CSDL sử dụng biến mật khẩu độc lập trong file `.env` (mặ
 * **Server:** Nhập tên service trong Docker (VD: `mysql`, `postgres`, `sqlserver_db`). **Không dùng `localhost`**.
 * **Username & Password:** Nhập tài khoản và mật khẩu tương ứng của CSDL đó.
 
-### Quản lý bằng phần mềm trên máy thật (DBeaver / Compass)
-* **DBeaver (MySQL, Postgres, SQL Server):** Host là `localhost`, port và tài khoản theo bảng trên.
-  *(Với SQL Server: Vào thẻ `Driver Properties` đặt `TrustServerCertificate = true`).*
-* **MongoDB Compass:**
-  ```text
-  mongodb://root:<MậtKhẩuMongo>@localhost:27017/
-  ```
+### Quản lý bằng phần mềm trên máy thật (DBeaver / Navicat / DataGrip / Compass)
+* **Host:** Luôn dùng `localhost` (hoặc `127.0.0.1`).
+* **Port / User / Database:** Điền theo thông số chi tiết ở bảng trên.
 
 ---
 
